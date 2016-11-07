@@ -1,106 +1,58 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Accessing-github-s-rest-api by Qijiang60</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1 class="header">Accessing-github-s-rest-api</h1>
-        <p class="header">Accessing GitHub’s REST API with CURL</p>
-
-        <ul>
-          <li class="download"><a class="buttons" href="https://github.com/Qijiang60/Accessing-GitHub-s-REST-API/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/Qijiang60/Accessing-GitHub-s-REST-API/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/Qijiang60/Accessing-GitHub-s-REST-API">View On GitHub</a></li>
-        </ul>
-
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/Qijiang60">Qijiang60</a></p>
-
-
-      </header>
-      <section>
-        <pre><code>&lt;p&gt;
-</code></pre>
-
-<p><a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST APIs</a> are popular. First mentioned in <a href="http://en.wikipedia.org/wiki/Roy_Fielding">Roy Fielding’s</a> dissertation<br>
-it describes an architecture based on the World Wide Web. REST APIs<br>
+	<p>
+<a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST APIs</a> are popular. First mentioned in <a href="http://en.wikipedia.org/wiki/Roy_Fielding">Roy Fielding&#8217;s</a> dissertation<br />
+it describes an architecture based on the World Wide Web. REST APIs<br />
 expose resources. The main prerequisites of good REST APIs are
 </p>
-
-<ol>
-<li>
-<b>Addressability</b> Every resource is addressable via an <a href="http://en.wikipedia.org/wiki/Uniform_resource_identifier">uniform<br>
+<ol class="org-ol">
+<li><b>Addressability</b> Every resource is addressable via an <a href="http://en.wikipedia.org/wiki/Uniform_resource_identifier">uniform<br />
 resource identifier</a>.
 </li>
-<li>
-<b>Uniform Interface</b> <a href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> is used as an interface to the manipulated<br>
+<li><b>Uniform Interface</b> <a href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> is used as an interface to the manipulated<br />
 the various resources the API exposes.
 </li>
-<li>
-<b>Interconnectednes</b> Just like website are linked together,<br>
+<li><b>Interconnectednes</b> Just like website are linked together,<br />
 resources should provide links to related resources.
 </li>
-<li>
-<b>Statelessness</b> The server should be kept stateless. Any state that<br>
+<li><b>Statelessness</b> The server should be kept stateless. Any state that<br />
 is necessary should be passed along the request.
 </li>
 </ol>
-
 <p>
-When discussing RESTful APIs it good to have some real world<br>
-examples. REST APIs that are accessible via the internet often shield<br>
-their interface behind some form of authentication. This adds a<br>
+When discussing RESTful APIs it good to have some real world<br />
+examples. REST APIs that are accessible via the internet often shield<br />
+their interface behind some form of authentication. This adds a<br />
 barrier to using these API as demonstration.
 </p>
-
 <p>
-In this blog post we will show how to use <a href="https://github.com/">GitHub</a> REST API, that needs<br>
+In this blog post we will show how to use <a href="https://github.com/">GitHub</a> REST API, that needs<br />
 authentication, from the command line using <a href="http://curl.haxx.se/">curl</a>.
 </p>
-
-<div id="outline-container-sec-1">
-<h2 id="sec-1">
-<a id="1-github" class="anchor" href="#1-github" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1 GitHub</h2>
-<div id="text-1">
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> GitHub</h2>
+<div class="outline-text-2" id="text-1">
 <p>
-<a href="https://github.com/">GitHub</a> is a hosting service for <a href="http://git-scm.com/">git</a> repositories. GitHub’s logo sports<br>
-the sub-title “social coding” and it can be seen as a social network<br>
+<a href="https://github.com/">GitHub</a> is a hosting service for <a href="http://git-scm.com/">git</a> repositories. GitHub&#8217;s logo sports<br />
+the sub-title &#8220;social coding&#8221; and it can be seen as a social network<br />
 for developers.
 </p>
 <p>
-The GitHub’s REST API documentation can be found at<br>
+The GitHub&#8217;s REST API documentation can be found at<br />
 <a href="https://developer.github.com/v3/">https://developer.github.com/v3/</a>.
 </p>
 </div>
-
-<p></p>
 </div>
-
-<div id="outline-container-sec-2">
-<h2 id="sec-2">
-<a id="2-endpoints" class="anchor" href="#2-endpoints" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2 EndPoints</h2>
-<div id="text-2">
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> EndPoints</h2>
+<div class="outline-text-2" id="text-2">
 <p>
-We can request all the endpoints that GitHub exposes with the<br>
+We can request all the endpoints that GitHub exposes with the<br />
 following command
 </p>
-<div>
-<pre>curl -X GET https://api.github.com
+<div class="org-src-container">
+<pre class="src src-sh">curl -X GET https://api.github.com
 </pre>
 </div>
-
-<pre>
+<pre class="example">
 {
   "current_user_url": "https://api.github.com/user",
   "authorizations_url": "https://api.github.com/authorizations",
@@ -132,85 +84,72 @@ following command
   "user_search_url": "https://api.github.com/search/users?q={query}{&amp;page,per_page,sort,order}"
 }
 </pre>
-
 <p>
 It returns a <a href="http://www.json.org/">JSON</a> object with endpoints that can be requested.
 </p>
-
-<p></p>
 </div>
 </div>
-
-<div id="outline-container-sec-3">
-<h2 id="sec-3">
-<a id="3-authentication" class="anchor" href="#3-authentication" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3 Authentication</h2>
-<div id="text-3">
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Authentication</h2>
+<div class="outline-text-2" id="text-3">
 <p>
-Let’s request the current user. From the endpoints listed in the<br>
+Let&#8217;s request the current user. From the endpoints listed in the<br />
 preceding section we know that we have to request <code>https://api.github.com/user</code>
 </p>
-<div>
-<pre>curl -X GET https://api.github.com/user
+<div class="org-src-container">
+<pre class="src src-sh">curl -X GET https://api.github.com/user
 </pre>
 </div>
-
-<pre>
+<pre class="example">
 {
   "message": "Requires authentication",
   "documentation_url": "https://developer.github.com/v3"
 }
 </pre>
-
 <p>
-Unfortunatly the server sends back a status code of <code>401 Unauthorized</code><br>
+Unfortunatly the server sends back a status code of <code>401 Unauthorized</code><br />
 with the preceding message.
 </p>
-
-<p></p>
 </div>
-
-<div id="outline-container-sec-3-1">
-<h3 id="sec-3-1">
-<a id="31-basic-authentication" class="anchor" href="#31-basic-authentication" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.1 Basic Authentication</h3>
-<div id="text-3-1">
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Basic Authentication</h3>
+<div class="outline-text-3" id="text-3-1">
 <p>
-One way of authenticating is via basic authentication as specified in<br>
-<a href="http://www.ietf.org/rfc/rfc2617.txt">RFC2617</a>. In this form of authentication you provide the GitHub<br>
-username and password. Using curl one can pass in the <code>-u</code> or <code>--user</code><br>
+One way of authenticating is via basic authentication as specified in<br />
+<a href="http://www.ietf.org/rfc/rfc2617.txt">RFC2617</a>. In this form of authentication you provide the GitHub<br />
+username and password. Using curl one can pass in the <code>-u</code> or <code>--user</code><br />
 option, providing the corresponding password with each request.
 </p>
 <p>
 The following excerpt shows a session demonstrating this option.
 </p>
-<pre>
+<pre class="example">
 &gt; curl -X GET -u dvberkel https://api.github.com/user/dvberkel
 Enter host password for user 'dvberkel':
 </pre>
 <p>
-This option soon becomes tiresome, especially if you have a password<br>
-with high entropy. To mitigate the burden one could create environment<br>
+This option soon becomes tiresome, especially if you have a password<br />
+with high entropy. To mitigate the burden one could create environment<br />
 variables and use them instead.
 </p>
 <p>
 For example, if you create the following environment variables
 </p>
-<pre>
+<pre class="example">
 export GITHUB_USER=dvberkel
 export GITHUB_PASSWORD=abcd1234
 </pre>
 <p>
 A request could be made with the command
 </p>
-<div>
-<pre>curl -X GET -u $GITHUB_USER:$GITHUB_PASSWORD https://api.github.com/user
+<div class="org-src-container">
+<pre class="src src-sh">curl -X GET -u $<span style="color: #268bd2">GITHUB_USER</span>:$<span style="color: #268bd2">GITHUB_PASSWORD</span> https://api.github.com/user
 </pre>
 </div>
-
 <p>
 With the result
 </p>
-
-<pre>
+<pre class="example">
 {
   "login": "dvberkel",
   "id": 493347,
@@ -255,203 +194,164 @@ With the result
   }
 }
 </pre>
-
-<p></p>
 </div>
 </div>
-
-<div id="outline-container-sec-3-2">
-<h3 id="sec-3-2">
-<a id="32-2-factor-authentication" class="anchor" href="#32-2-factor-authentication" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.2 2-Factor Authentication</h3>
-<div id="text-3-2">
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> 2-Factor Authentication</h3>
+<div class="outline-text-3" id="text-3-2">
 <p>
-GitHub supports <a href="http://en.wikipedia.org/wiki/Multi-factor_authentication">2-Factor Authentication</a> which provides additional<br>
-security. If a user uses 2-factor authentication basic authentication<br>
+GitHub supports <a href="http://en.wikipedia.org/wiki/Multi-factor_authentication">2-Factor Authentication</a> which provides additional<br />
+security. If a user uses 2-factor authentication basic authentication<br />
 is a bit more complicated. When firing a request
 </p>
-<div>
-<pre>curl -X GET -u $GITHUB_USER:$GITHUB_PASSWORD https://api.github.com/user
+<div class="org-src-container">
+<pre class="src src-sh">curl -X GET -u $<span style="color: #268bd2">GITHUB_USER</span>:$<span style="color: #268bd2">GITHUB_PASSWORD</span> https://api.github.com/user
 </pre>
 </div>
-
 <p>
 The server responds with
 </p>
-
-<pre>
+<pre class="example">
 {
   "message": "Must specify two-factor authentication OTP code.",
   "documentation_url": "https://developer.github.com/v3/auth#working-with-two-factor-authentication"
 }
 </pre>
-
 <p>
-Furthermore, it sends back a <code>X-GitHub-OTP: required; app</code> or<br>
-<code>X-GitHub-OTP: require; sms</code> header, indicating that a <a href="http://en.wikipedia.org/wiki/One-time_password">one-time<br>
-password</a> is required. These one-time passwords are acquired via an<br>
+Furthermore, it sends back a <code>X-GitHub-OTP: required; app</code> or<br />
+<code>X-GitHub-OTP: require; sms</code> header, indicating that a <a href="http://en.wikipedia.org/wiki/One-time_password">one-time<br />
+password</a> is required. These one-time passwords are acquired via an<br />
 app, such as <a href="http://en.wikipedia.org/wiki/Google_Authenticator">Google Authenticator</a>, or via <a href="http://en.wikipedia.org/wiki/Short_Message_Service">SMS</a>.
 </p>
-
 <p>
-Once required, the one-time password needs to be send via the<br>
+Once required, the one-time password needs to be send via the<br />
 <code>X-GitHub-OTP</code> header as shown in the code below.
 </p>
-
-<div>
-<pre>curl -X GET -u $GITHUB_USER:$GITHUB_PASSWORD -H 'X-GitHub-OTP: 123456' https://api.github.com/user
+<div class="org-src-container">
+<pre class="src src-sh">curl -X GET -u $<span style="color: #268bd2">GITHUB_USER</span>:$<span style="color: #268bd2">GITHUB_PASSWORD</span> -H <span style="color: #2aa198">'X-GitHub-OTP: 123456'</span> https://api.github.com/user
 </pre>
 </div>
-
-<p></p>
 </div>
 </div>
-
-<div id="outline-container-sec-3-3">
-<h3 id="sec-3-3">
-<a id="33-access-token" class="anchor" href="#33-access-token" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.3 Access Token</h3>
-<div id="text-3-3">
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Access Token</h3>
+<div class="outline-text-3" id="text-3-3">
 <p>
-Providing a username and password with every request soon becomes<br>
-tiresome. Especially for users that have enabled 2-factor<br>
+Providing a username and password with every request soon becomes<br />
+tiresome. Especially for users that have enabled 2-factor<br />
 authentication.
 </p>
 <p>
-Although the burden is somewhat alliviated by introducing environment<br>
-variables, this introduces the possibillity that someone gleans your<br>
-password by taking control of your computer and echoing these<br>
+Although the burden is somewhat alliviated by introducing environment<br />
+variables, this introduces the possibillity that someone gleans your<br />
+password by taking control of your computer and echoing these<br />
 variables.
 </p>
-<div>
-<pre>&gt; echo $GITHUB_PASSWORD
+<div class="org-src-container">
+<pre class="src src-sh">&gt; echo $<span style="color: #268bd2">GITHUB_PASSWORD</span>
 abcd1234
 </pre>
 </div>
-
 <p>
-GitHub offers other means of authentication. One of them are <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/">access<br>
-tokens</a>. Access tokens are very well suited for our use case,<br>
+GitHub offers other means of authentication. One of them are <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/">access<br />
+tokens</a>. Access tokens are very well suited for our use case,<br />
 i.e. accessing the GitHub REST API from the command line.
 </p>
-
 <p>
-An access token can be easily created and revoked. It offers<br>
+An access token can be easily created and revoked. It offers<br />
 fine-grained access controlled via <a href="https://developer.github.com/v3/oauth/#scopes">scopes</a>.
 </p>
-
-<p></p>
 </div>
-
-<div id="outline-container-sec-3-3-1">
-<h4 id="sec-3-3-1">
-<a id="331-web-interface" class="anchor" href="#331-web-interface" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.3.1 Web Interface</h4>
-<div id="text-3-3-1">
+<div id="outline-container-sec-3-3-1" class="outline-4">
+<h4 id="sec-3-3-1"><span class="section-number-4">3.3.1</span> Web Interface</h4>
+<div class="outline-text-4" id="text-3-3-1">
 <p>
-One way to create access tokens is via the web interface that GitHub<br>
+One way to create access tokens is via the web interface that GitHub<br />
 offers. You access it by clicking the settings icon.
 </p>
-<div>
-<p><img src="https://help.github.com/assets/images/help/settings/userbar-account-settings.png" alt="userbar-account-settings.png">
+<div class="figure">
+<p><img src="https://help.github.com/assets/images/help/settings/userbar-account-settings.png" alt="userbar-account-settings.png" />
 </p>
 </div>
-
 <p>
 Next you have to select <b>Applications</b>
 </p>
-
-<div>
-<p><img src="https://help.github.com/assets/images/help/settings/applications.png" alt="applications.png">
+<div class="figure">
+<p><img src="https://help.github.com/assets/images/help/settings/applications.png" alt="applications.png" />
 </p>
 </div>
-
 <p>
 and create a new token
 </p>
-
-<div>
-<p><img src="https://help.github.com/assets/images/help/settings/generate_new_token.png" alt="generate_new_token.png">
+<div class="figure">
+<p><img src="https://help.github.com/assets/images/help/settings/generate_new_token.png" alt="generate_new_token.png" />
 </p>
 </div>
-
 <p>
-You can give the access token a meaningfull description so you can<br>
+You can give the access token a meaningfull description so you can<br />
 differentiate it in the list of all access tokens.
 </p>
-
-<div>
-<p><img src="https://help.github.com/assets/images/help/settings/token_description.png" alt="token_description.png">
+<div class="figure">
+<p><img src="https://help.github.com/assets/images/help/settings/token_description.png" alt="token_description.png" />
 </p>
 </div>
-
 <p>
-Furthermore you can selectively pick scopes to control what this token<br>
+Furthermore you can selectively pick scopes to control what this token<br />
 gives access to.
 </p>
-
-<div>
-<p><img src="https://help.github.com/assets/images/help/settings/token_scopes.gif" alt="token_scopes.gif">
+<div class="figure">
+<p><img src="https://help.github.com/assets/images/help/settings/token_scopes.gif" alt="token_scopes.gif" />
 </p>
 </div>
-
 <p>
 When you finally click <b>Generate token</b>
 </p>
-
-<div>
-<p><img src="https://help.github.com/assets/images/help/settings/generate_token.png" alt="generate_token.png">
+<div class="figure">
+<p><img src="https://help.github.com/assets/images/help/settings/generate_token.png" alt="generate_token.png" />
 </p>
 </div>
-
 <p>
 your access token will be shown.
 </p>
-
-<div>
-<p><img src="https://help.github.com/assets/images/help/settings/personal_access_tokens.png" alt="personal_access_tokens.png">
+<div class="figure">
+<p><img src="https://help.github.com/assets/images/help/settings/personal_access_tokens.png" alt="personal_access_tokens.png" />
 </p>
 </div>
-
 <p>
-For security reasons this is the only time you the access token is<br>
-shown. The next time you visit the page it will only show the<br>
+For security reasons this is the only time you the access token is<br />
+shown. The next time you visit the page it will only show the<br />
 description.
 </p>
-
 <p>
-You should treat access tokens as if they are passwords. Do not share<br>
+You should treat access tokens as if they are passwords. Do not share<br />
 them easily and make sure to remove unused access tokens often.
 </p>
-
-<p></p>
 </div>
 </div>
-
-<div id="outline-container-sec-3-3-2">
-<h4 id="sec-3-3-2">
-<a id="332-rest-api" class="anchor" href="#332-rest-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.3.2 REST API</h4>
-<div id="text-3-3-2">
+<div id="outline-container-sec-3-3-2" class="outline-4">
+<h4 id="sec-3-3-2"><span class="section-number-4">3.3.2</span> REST API</h4>
+<div class="outline-text-4" id="text-3-3-2">
 <p>
-An other way of creating access tokens is via the <a href="https://developer.github.com/v3/oauth_authorizations/#create-a-new-authorization">Authorizations<br>
-API</a>. You access the Authorization API with basic authentication as<br>
-explained above. For example the code below generates an access token<br>
+An other way of creating access tokens is via the <a href="https://developer.github.com/v3/oauth_authorizations/#create-a-new-authorization">Authorizations<br />
+API</a>. You access the Authorization API with basic authentication as<br />
+explained above. For example the code below generates an access token<br />
 to the users email address.
 </p>
-<div>
-<pre>curl \
-  -X POST \
-  -u $GITHUB_USER:$GITHUB_PASSWORD \
-  -H 'Content-Type: application/json' \
-  -d '{"scopes": ["user:email"],"note": "blog example"}' \
+<div class="org-src-container">
+<pre class="src src-sh">curl <span style="color: #b58900;font-weight: bold">\</span>
+  -X POST <span style="color: #b58900;font-weight: bold">\</span>
+  -u $<span style="color: #268bd2">GITHUB_USER</span>:$<span style="color: #268bd2">GITHUB_PASSWORD</span> <span style="color: #b58900;font-weight: bold">\</span>
+  -H <span style="color: #2aa198">'Content-Type: application/json'</span> <span style="color: #b58900;font-weight: bold">\</span>
+  -d <span style="color: #2aa198">'{"scopes": ["user:email"],"note": "blog example"}'</span> <span style="color: #b58900;font-weight: bold">\</span>
   https://api.github.com/authorizations
 </pre>
 </div>
-
 <p>
-We send along our credentials and data. The data is send as JSON so we<br>
-add an appropriate HTTP header. The result send back includes our<br>
+We send along our credentials and data. The data is send as JSON so we<br />
+add an appropriate HTTP header. The result send back includes our<br />
 access token.
 </p>
-
-<pre>
+<pre class="example">
 {
   "id": 12345678,
   "url": "https://api.github.com/authorizations/12345678",
@@ -470,51 +370,42 @@ access token.
   ]
 }
 </pre>
-
 <p>
-Just like our username and password, the token can be stored in an<br>
+Just like our username and password, the token can be stored in an<br />
 environment variable for ease access
 </p>
-
-<div>
-<pre>export GITHUB_TOKEN=1234567890abcdef1234567890abcdef12345678
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #839496;font-weight: bold">export</span> <span style="color: #268bd2">GITHUB_TOKEN</span>=1234567890abcdef1234567890abcdef12345678
 </pre>
 </div>
-
 <p>
-When we are done with the token we can use the API to delete the token<br>
+When we are done with the token we can use the API to delete the token<br />
 as well.
 </p>
-
-<div>
-<pre>curl -X DELETE -u $GITHUB_USER:$GITHUB_PASSWORD https://api.github.com/authorizations/12345678
+<div class="org-src-container">
+<pre class="src src-:exports">curl -X DELETE -u $GITHUB_USER:$GITHUB_PASSWORD https://api.github.com/authorizations/12345678
 </pre>
 </div>
-
-<p></p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-sec-3-4">
-<h3 id="sec-3-4">
-<a id="34-using-acces-token" class="anchor" href="#34-using-acces-token" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.4 Using Acces Token</h3>
-<div id="text-3-4">
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Using Acces Token</h3>
+<div class="outline-text-3" id="text-3-4">
 <p>
-With our access token nicely tucked away in our environment variable<br>
-<code>GITHUB_TOKEN</code> we can start using it. We will use the access token to<br>
+With our access token nicely tucked away in our environment variable<br />
+<code>GITHUB_TOKEN</code> we can start using it. We will use the access token to<br />
 retrieve the user information.
 </p>
 <p>
-Instead of passing along the username and password we pass along our<br>
+Instead of passing along the username and password we pass along our<br />
 access token and a password of <code>x-oauth-basic</code>.
 </p>
-<div>
-<pre>curl -X GET -u $GITHUB_TOKEN:x-oauth-basic 'https://api.github.com/user'
+<div class="org-src-container">
+<pre class="src src-:exports">curl -X GET -u $GITHUB_TOKEN:x-oauth-basic 'https://api.github.com/user'
 </pre>
 </div>
-
-<pre>
+<pre class="example">
 {
   "login": "dvberkel",
   "id": 493347,
@@ -559,67 +450,53 @@ access token and a password of <code>x-oauth-basic</code>.
   }
 }
 </pre>
-
-<p></p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-sec-4">
-<h2 id="sec-4">
-<a id="4-conclusion" class="anchor" href="#4-conclusion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4 Conclusion</h2>
-<div id="text-4">
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Conclusion</h2>
+<div class="outline-text-2" id="text-4">
 <p>
-Demonstrating GitHub’s REST API from the command line is fairly<br>
-easy. By creating an access token and storing it in an environment<br>
+Demonstrating GitHub&#8217;s REST API from the command line is fairly<br />
+easy. By creating an access token and storing it in an environment<br />
 variable curl can be used to access the resources that GitHub exposes.</p>
-            </div>
+			</div><!-- .entry-content -->
 
-     
-        This entry was posted in <a href="https://blogs.infosupport.com/themas/technology/various/">Various</a> by <a href="https://blogs.infosupport.com/author/d-vanberkel/">Daan van Berkel</a>. Bookmark the <a href="https://blogs.infosupport.com/accessing-githubs-rest-api-with-curl/" title="Permalink to Accessing GitHub’s REST API with CURL">permalink</a>.                
-        <div>
-            
-            
-            
-            
-            
-            
-        </div>
+	<footer class="entry-meta">
+		This entry was posted in <a href="https://blogs.infosupport.com/themas/technology/various/" rel="category tag">Various</a> by <a href="https://blogs.infosupport.com/author/d-vanberkel/">Daan van Berkel</a>. Bookmark the <a href="https://blogs.infosupport.com/accessing-githubs-rest-api-with-curl/" title="Permalink to Accessing GitHub&#8217;s REST API with CURL" rel="bookmark">permalink</a>.				<!-- AddThis Button BEGIN -->
+		<div class="refurl-share refurls-32">
+		    <a class="refurl-button" data-platform="twitter"></a>
+		    <a class="refurl-button" data-platform="facebook"></a>
+		    <a class="refurl-button" data-platform="linkedin"></a>
+		    <a class="refurl-button" data-platform="googleplus"></a>
+		    <a class="refurl-button" data-platform="email"></a>
+		    <a class="refurl-button" data-platform="whatsapp"></a>
+		</div>
+		<script type="text/javascript">
+		var refurl_config = {
+		    "project": "blogs.infosupport.com"
+		};
+		</script>
+		<script type="text/javascript" src="https://app.getrefurls.com/js/1.1/widget.js"></script>
+		<!-- AddThis Button END -->
 
-<pre><code>    &lt;script type="text/javascript"&gt;
-    var refurl_config = {
-        "project": "blogs.infosupport.com"
-    };
-    &lt;/script&gt;
-    &lt;script type="text/javascript" src="https://app.getrefurls.com/js/1.1/widget.js"&gt;&lt;/script&gt;
-    &lt;!-- AddThis Button END --&gt;
+				<div id="author-info">
+			<div id="author-avatar">
+				<img src="https://blogs.infosupport.com/wp-content/uploads/userphoto/110.thumbnail.jpg" alt="Daan van Berkel" width="53" height="80" class="photo" />			</div><!-- #author-avatar -->
+			<div id="author-description">
+				<h2>About Daan van Berkel</h2>
+				Daan van Berkel is oud-medewerker van Info Support. Zijn blogposts zijn dan ook gesloten voor comments.				<div id="author-link">
+					<a href="https://blogs.infosupport.com/author/d-vanberkel/" rel="author">
+						View all posts by Daan van Berkel <span class="meta-nav">&rarr;</span>					</a>
+				</div><!-- #author-link	-->
+			</div><!-- #author-description -->
+		</div><!-- #entry-author-info -->
+			</footer><!-- .entry-meta -->
+</article><!-- #post-16855 -->
 
-            &lt;div id="author-info"&gt;
-        &lt;div id="author-avatar"&gt;
-            &lt;img src="https://blogs.infosupport.com/wp-content/uploads/userphoto/110.thumbnail.jpg" alt="Daan van Berkel" width="53" height="80" class="photo" /&gt;           &lt;/div&gt;&lt;!-- #author-avatar --&gt;
-        &lt;div id="author-description"&gt;
-            &lt;h2&gt;About Daan van Berkel&lt;/h2&gt;
-            Daan van Berkel is oud-medewerker van Info Support. Zijn blogposts zijn dan ook gesloten voor comments.             &lt;div id="author-link"&gt;
-                &lt;a href="https://blogs.infosupport.com/author/d-vanberkel/" rel="author"&gt;
-                    View all posts by Daan van Berkel &lt;span class="meta-nav"&gt;&amp;rarr;&lt;/span&gt;                  &lt;/a&gt;
-            &lt;/div&gt;&lt;!-- #author-link --&gt;
-        &lt;/div&gt;&lt;!-- #author-description --&gt;
-    &lt;/div&gt;&lt;!-- #entry-author-info --&gt;
-        &lt;/footer&gt;&lt;!-- .entry-meta --&gt;
-</code></pre>
-
-<p></p>
-
-<pre><code>                    &lt;div id="comments"&gt;
-</code></pre>
-
-<p></p> </div>
-      </section>
-      <footer>
-        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
-      </footer>
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		
-  </body>
-</html>
+						<div id="comments">
+	
+	
+	
+	
+</div><!-- #comments -->
