@@ -1,0 +1,58 @@
+ <p><em>2015-07-03</em></p>
+
+      <p>
+        <em>Tags:
+          <span>
+            <a shape="rect" href="../../../tags/程式語言.html">程式語言</a>
+            <span>,</span>
+          </span>
+          <span>
+            <a shape="rect" href="../../../tags/github.html">github</a>
+            <span>,</span>
+          </span>
+          <span>
+            <a shape="rect" href="../../../tags/java.html">java</a>
+            
+          </span>
+        </em>
+      </p>
+
+      <p>
+這陣子用 java 去呼叫 github restful api 之後有些心得，將它做個簡單記錄
+<br>
+<ul>
+ <li>github api v3 說明文件在<a href="https://developer.github.com/v3/" target="_blank">這裡</a></li>
+ <li>github 推薦的 java library 有<a href="https://developer.github.com/libraries/" target="_blank">下列三個</a><br>
+  <ul>
+   <li><a href="https://github.com/eclipse/egit-github/tree/master/org.eclipse.egit.github.core" target="_blank">egit-github</a></li>
+   <li><a href="https://github.com/kohsuke/github-api" target="_blank">kohsuke-github-api</a></li>
+   <li><a href="https://github.com/jcabi/jcabi-github" target="_blank">jcabi-github</a></li>
+  </ul></li>
+ <li>java library 對 github api v3 支援度<br>
+  <ul>
+   <li>kohsuke-github-api &gt; jcabi-github &gt; egit-github</li>
+   <li>kohsuke-github-api 實作最完整</li>
+   <li>jcabi-github 缺少很多實作</li>
+   <li>egit-github 的目標是 100% 支援 github api v3，可是 source code 裡反而還存留一堆呼叫 github legacy api 的 code</li>
+  </ul></li>
+ <li>java library 操作便捷性<br>
+  <ul>
+   <li> jcabi-github &gt; kohsuke-github-api &gt; egit-github</li>
+   <li>kohsuke-github-api 與 jcabi-github 在操作上比 egit-github 好很多，egit-github 這方面顯的過時</li>
+  </ul></li>
+ <li>java library 說明文件完整度<br>
+  <ul>
+   <li>三者都很爛，沒啥文件說明。要查怎麼使用要去看 source code 裡 junit test 相關 class</li>
+   <li>因為 egit-github 出來時間最早，所以 <a href="http://stackoverflow.com/" target="_blank">stackoverflow</a> 裡比較能找到 egit-github 相關問題的解答</li>
+  </ul></li>
+ <li>總結<br>
+  <ul>
+   <li>以現況而言，個人推薦使用 kohsuke-github-api。它對 github api v3 支援最完整，在 libray 操作上也蠻直覺的</li>
+   <li>如果不介意 library 是否用到 github api v3，而是要找白老鼠最多的 library，那選 egit-github 就對了。它最早出來，所以功能最完整，白老鼠最多</li>
+   <li>從設計角度來看，jcabi-github 設計最好。但是因為它太年輕，欠缺很多功能</li>
+   <li><a href="https://developer.github.com/v3/search/" target="_blank">github search api</a> 有 bug，我遇過查詢條件正確，但是查詢結果是錯誤的狀況。如果用 java library 去呼叫 github api 卻發現結果總是錯的，這時除了要懷疑 library 本身有 bug 之外，最好要用 restful client 去驗証 github api 是不是一開始就回傳錯誤資料 </li>
+  </ul></li>
+</ul>
+</p>
+
+      <hr />
