@@ -1,0 +1,95 @@
+        <p>这几天研究了下Github提供的API，与普通API不同的地方在于使用它的API必须先对<a href="http://git-scm.com/book/zh/Git-%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86">Git的内部原理</a>有一定的了解，门槛较高。但如果只要实现添加修改文件的话会相对简单些，也能满足大多数的日常需要。</p>
+<h3>流程</h3>
+<ul>
+<li>GET <code>/repos/:user/:repo/git/refs/heads/master</code>
+
+<ul>
+<li>获得最新commit的SHA (SHA-LATEST-COMMIT)</li>
+</ul>
+</li>
+<li>GET <code>/repos/:user/:repo/git/commits/SHA-LATEST-COMMIT</code>
+
+<ul>
+<li>获得commit所指向的tree的SHA (SHA-BASE-TREE)</li>
+</ul>
+</li>
+<li>POST <code>/repos/:user/:repo/git/trees</code>
+
+<ul>
+<li>
+<code>base_tree</code>设定为SHA-BASE-TREE</li>
+<li>
+<code>path</code>为要修改或创建的文件的完整路径</li>
+<li>
+<code>content</code>为文件内容</li>
+<li>获得新tree的SHA (SHA-NEW-TREE)</li>
+</ul>
+</li>
+<li>POST <code>/repos/:user/:repo/git/commits</code>
+
+<ul>
+<li>
+<code>parents</code>设定为一个包含SHA-LATEST-COMMIT的数组</li>
+<li>
+<code>tree</code>为SHA-NEW-TREE</li>
+<li>获得新commit的SHA (SHA-NEW-COMMIT)</li>
+</ul>
+</li>
+<li>POST <code>/repos/:user/:repo/git/refs/head/master</code>
+
+<ul>
+<li>
+<code>sha</code>设定为SHA-NEW-COMMIT</li>
+<li>可能要将<code>force</code>设为true</li>
+</ul>
+</li>
+</ul>
+
+<p><em>via <a href="http://www.mdswanson.com/blog/2011/07/23/digging-around-the-github-api-take-2.html">Making a commit with the Github API</a></em></p>
+<h3>一个细节</h3>
+<p>POST操作需要验证，可以简单地附上自己的用户名、密码。</p>
+<figure class="figure-code code"><div class="highlight"><pre>curl -u username:password https://api.github.com/authorizations                 # using curl
+requests.get("https://api.github.com/authorizations", auth=(username,password)) # using requests
+</pre></div>
+</figure><h3>Python实现（使用了requests）</h3>
+<p>{% highlight python %}<br>
+auth = ("username", "password")<br>
+base_url="<a href="https://api.github.com/repos/:user/:repo/git" rel="nofollow" target="_blank">https://api.github.com/repos/:user/:repo/git</a>"</p>
+
+<p>def GET(path):<br>
+    r=requests.get(base_url+path, auth=auth)<br>
+    return json.loads(r.content)</p>
+
+<p>def POST(path, data):<br>
+    r=requests.post(base_url+path, data=data, auth=auth)<br>
+    return json.loads(r.content)</p>
+
+<p>def commit(path, content, message):<br>
+    sha_latest_commit = GET("/refs/heads/master")[u"object"][u"sha"]<br>
+    sha_base_tree = GET("/commits/%s" % sha_latest_commit)[u"tree"][u"sha"]</p>
+<figure class="figure-code code"><div class="highlight"><pre>new_tree = {
+    "base_tree": sha_base_tree,
+    "tree": [ {
+        "path": path,
+        "mode": "100644",
+        "type": "blob",
+        "content": content
+    } ]
+}
+sha_new_tree = POST("/trees", json.dumps(new_tree))[u'sha']
+
+new_commit = {
+    "parents": [sha_latest_commit],
+    "message": message,
+    "tree": sha_new_tree
+}
+sha_new_commit = POST("/commits", json.dumps(new_commit))[u'sha']
+
+ref = {
+    "sha": sha_new_commit,
+    "force": "true"
+}
+POST("/refs/heads/master", json.dumps(ref))
+</pre></div>
+</figure>
+<p>{% endhighlight %}</p>
