@@ -90,6 +90,64 @@
 
 <p><a href="http://cdn.crunchify.com/wp-content/uploads/2014/11/Github-basic-authentication-curl-access.png"><img src="http://cdn.crunchify.com/wp-content/uploads/2014/11/Github-basic-authentication-curl-access.png" alt="Github basic authentication - curl access" width="728" height="69"></a></p>
       </section>
+	    &nbsp; &nbsp;&nbsp; &nbsp; GitHub的API功能很强大，也很规范。基本都是以GET方式从<a href="https://api.github.com/" target="_blank">https://api.github.com/</a>取得。<br />
+&nbsp; &nbsp;&nbsp; &nbsp; 假如要获得代码库里的readme，使用使用<font color="#ff0000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;GET /repos/:owner/:repo/readme</font><br />
+&nbsp; &nbsp;&nbsp; &nbsp;比如Typecho的肥皂库 <a href="https://api.github.com/repos/typecho-fans/plugins/readme" target="_blank">https://api.github.com/repos/typecho-fans/plugins/readme</a><br />
+&nbsp; &nbsp;&nbsp; &nbsp;通过浏览器输入地址，或是使用curl或者其他方法取得页面内容，注意通过curl等方式要设置User-Agent。<br />
+&nbsp; &nbsp;&nbsp; &nbsp;返回值为json编码的stdClass，content属性为源码的base64编码，去掉'\n'再用base64方式解码就取得文件源码。<br />
+&nbsp; &nbsp;&nbsp; &nbsp;如果要取得代码文件内容，需要获取相应的目录和文件内容：<br />
+<font color="#ff0000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;GET /repos/:owner/:repo/contents/:path</font><br />
+&nbsp; &nbsp;&nbsp; &nbsp;比如要获取肥皂库的根目录下的内容：<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<a href="https://api.github.com/repos/typecho-fans/plugins/contents/" target="_blank">https://api.github.com/repos/typecho-fans/plugins/contents/</a><br /><pre name='code' class='PHP' >[
+&nbsp;&nbsp;{
+&nbsp; &nbsp; &quot;name&quot;: &quot;At&quot;,
+&nbsp; &nbsp; &quot;path&quot;: &quot;At&quot;,
+&nbsp; &nbsp; &quot;sha&quot;: &quot;668a750a5aae5d9187cebfd74f10e43e47d338bc&quot;,
+&nbsp; &nbsp; &quot;size&quot;: null,
+&nbsp; &nbsp; &quot;url&quot;: &quot;https://api.github.com/repos/typecho-fans/plugins/contents/At?ref=master&quot;,
+&nbsp; &nbsp; &quot;html_url&quot;: &quot;https://github.com/typecho-fans/plugins/tree/master/At&quot;,
+&nbsp; &nbsp; &quot;git_url&quot;: &quot;https://api.github.com/repos/typecho-fans/plugins/git/trees/668a750a5aae5d9187cebfd74f10e43e47d338bc&quot;,
+&nbsp; &nbsp; &quot;type&quot;: &quot;dir&quot;,
+&nbsp; &nbsp; &quot;_links&quot;: {
+&nbsp; &nbsp;&nbsp; &nbsp;&quot;self&quot;: &quot;https://api.github.com/repos/typecho-fans/plugins/contents/At?ref=master&quot;,
+&nbsp; &nbsp;&nbsp; &nbsp;&quot;git&quot;: &quot;https://api.github.com/repos/typecho-fans/plugins/git/trees/668a750a5aae5d9187cebfd74f10e43e47d338bc&quot;,
+&nbsp; &nbsp;&nbsp; &nbsp;&quot;html&quot;: &quot;https://github.com/typecho-fans/plugins/tree/master/At&quot;
+&nbsp; &nbsp; }
+&nbsp;&nbsp;},
+&nbsp;&nbsp;{
+&nbsp; &nbsp; &quot;name&quot;: &quot;AutoSlug&quot;,
+&nbsp; &nbsp; &quot;path&quot;: &quot;AutoSlug&quot;,
+&nbsp; &nbsp; &quot;sha&quot;: &quot;e0832144c0af0f5bccfd4f44faa4cfde1e5017cf&quot;,
+&nbsp; &nbsp; &quot;size&quot;: null,
+&nbsp; &nbsp; &quot;url&quot;: &quot;https://api.github.com/repos/typecho-fans/plugins/contents/AutoSlug?ref=master&quot;,
+&nbsp; &nbsp; &quot;html_url&quot;: &quot;https://github.com/typecho-fans/plugins/tree/master/AutoSlug&quot;,
+&nbsp; &nbsp; &quot;git_url&quot;: &quot;https://api.github.com/repos/typecho-fans/plugins/git/trees/e0832144c0af0f5bccfd4f44faa4cfde1e5017cf&quot;,
+&nbsp; &nbsp; &quot;type&quot;: &quot;dir&quot;,
+&nbsp; &nbsp; &quot;_links&quot;: {
+&nbsp; &nbsp;&nbsp; &nbsp;&quot;self&quot;: &quot;https://api.github.com/repos/typecho-fans/plugins/contents/AutoSlug?ref=master&quot;,
+&nbsp; &nbsp;&nbsp; &nbsp;&quot;git&quot;: &quot;https://api.github.com/repos/typecho-fans/plugins/git/trees/e0832144c0af0f5bccfd4f44faa4cfde1e5017cf&quot;,
+&nbsp; &nbsp;&nbsp; &nbsp;&quot;html&quot;: &quot;https://github.com/typecho-fans/plugins/tree/master/AutoSlug&quot;
+&nbsp; &nbsp; }
+&nbsp;&nbsp;},
+//省略掉了很多
+&nbsp;&nbsp;{
+&nbsp; &nbsp; &quot;name&quot;: &quot;XiaMiPlayer&quot;,
+&nbsp; &nbsp; &quot;path&quot;: &quot;XiaMiPlayer&quot;,
+&nbsp; &nbsp; &quot;sha&quot;: &quot;6fe21b2edf53e975e8ee4268aff5b757f2ea744d&quot;,
+&nbsp; &nbsp; &quot;size&quot;: null,
+&nbsp; &nbsp; &quot;url&quot;: &quot;https://api.github.com/repos/typecho-fans/plugins/contents/XiaMiPlayer?ref=master&quot;,
+&nbsp; &nbsp; &quot;html_url&quot;: &quot;https://github.com/typecho-fans/plugins/tree/master/XiaMiPlayer&quot;,
+&nbsp; &nbsp; &quot;git_url&quot;: &quot;https://api.github.com/repos/typecho-fans/plugins/git/trees/6fe21b2edf53e975e8ee4268aff5b757f2ea744d&quot;,
+&nbsp; &nbsp; &quot;type&quot;: &quot;dir&quot;,
+&nbsp; &nbsp; &quot;_links&quot;: {
+&nbsp; &nbsp;&nbsp; &nbsp;&quot;self&quot;: &quot;https://api.github.com/repos/typecho-fans/plugins/contents/XiaMiPlayer?ref=master&quot;,
+&nbsp; &nbsp;&nbsp; &nbsp;&quot;git&quot;: &quot;https://api.github.com/repos/typecho-fans/plugins/git/trees/6fe21b2edf53e975e8ee4268aff5b757f2ea744d&quot;,
+&nbsp; &nbsp;&nbsp; &nbsp;&quot;html&quot;: &quot;https://github.com/typecho-fans/plugins/tree/master/XiaMiPlayer&quot;
+&nbsp; &nbsp; }
+&nbsp;&nbsp;}
+]</pre>获取目录的返回值为一个json编码的数组，数组的每项为一个stdClass。通过循环读取对应的url就可以取得所有文件内容。<br />
+库内其他文件或目录的获取方式就在contents/后面加上对于的路径，比如：<pre name='code' class='PHP' >https://api.github.com/repos/typecho-fans/plugins/contents/At/Plugin.php</pre>再配合Cron就可以定时同步GitHub上的代码了。<br />
+
       <footer>
         <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
       </footer>
